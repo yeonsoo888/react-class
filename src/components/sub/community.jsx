@@ -5,6 +5,9 @@ import Layout from "../common/layout";
 export default function Community() {
     const input = useRef(null);
     const textarea = useRef(null);
+    const modifyInput = useRef(null);
+    const modifyTextarea = useRef(null);
+    const [confirmModify,setConfirmModify] = useState(false);
 
     const dummyPosts = [
         {
@@ -55,19 +58,21 @@ export default function Community() {
     }
 
     const enableUpdate = (i) => {
-        setPosts(
-            posts.map((item,idx) => {
-                if(idx == i) {
-                    item.enableUpdate = true;
-                }
-                return item;
-            }) 
-        )
+        if(!confirmModify) {
+            setConfirmModify(!confirmModify);
+            setPosts(
+                posts.map((item,idx) => {
+                    if(idx == i) {
+                        item.enableUpdate = true;
+                    }
+                    return item;
+                }) 
+            )
+        } else {
+            window.alert("수정모드를 해제하세요");
+        }
     }
 
-    useEffect(()=> {
-        console.log(posts);
-    },[posts]);
 
     const deletePosts = (i) => {
         const result = posts.filter((_,idx) => { return i !== idx})
@@ -88,7 +93,32 @@ export default function Community() {
         
     }
 
-    
+    const handleModify = (i) => {
+        const changeTit = modifyInput.current.value;
+        const changeCnt = modifyTextarea.current.value;
+
+        setPosts(
+            posts.map((item,idx) => {
+                if(idx == i) {
+                    item.enableUpdate = false;
+                    item.title = changeTit;
+                    item.content = changeCnt;
+                }
+                return item;
+            }) 
+        )
+        setConfirmModify(!confirmModify);
+    }
+
+    const handleModifyCancel = (i) => {
+        setPosts(
+            posts.map((item,idx) => {
+                item.enableUpdate = false;
+                return item;
+            }) 
+        )
+        setConfirmModify(!confirmModify);
+    }
 
     return (
         <Layout title={"Community"}>
@@ -106,10 +136,10 @@ export default function Community() {
                             {item.enableUpdate 
                             ?
                             <>
-                                <input type="text" defaultValue={item.title} /> <br />
-                                <textarea name="" id="" defaultValue={item.content}></textarea> <br />
-                                <button type="reset">cancel</button>
-                                <button>save</button>
+                                <input type="text" name="title" ref={modifyInput} defaultValue={item.title} /> <br />
+                                <textarea name="content" ref={modifyTextarea} defaultValue={item.content}></textarea> <br />
+                                <button onClick={() => handleModifyCancel(i)}>cancel</button>
+                                <button onClick={() => handleModify(i)}>save</button>
                             </>
                             :
                             <>
