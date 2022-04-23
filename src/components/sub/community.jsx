@@ -10,22 +10,27 @@ export default function Community() {
         {
             title : "hello1",
             content: "here comes description in detail.",
+
         },
         {
             title : "hello2",
             content: "here comes description in detail.",
+
         },
         {
             title : "hello3",
             content: "here comes description in detail.",
+
         },
         {
             title : "hello4",
             content: "here comes description in detail.",
+
         },
         {
             title : "hello5",
             content: "here comes description in detail.",
+
         },
     ]
     
@@ -49,8 +54,23 @@ export default function Community() {
         })
     }
 
+    const enableUpdate = (i) => {
+        setPosts(
+            posts.map((item,idx) => {
+                if(idx == i) {
+                    item.enableUpdate = true;
+                }
+                return item;
+            }) 
+        )
+    }
+
+    useEffect(()=> {
+        console.log(posts);
+    },[posts]);
+
     const deletePosts = (i) => {
-        const result = posts.filter((item2,idx) => { return i !== idx})
+        const result = posts.filter((_,idx) => { return i !== idx})
         setPosts(result);
     }
 
@@ -60,11 +80,15 @@ export default function Community() {
 
         if(inputVal == "" || textareaVal == "") {
             window.alert("정보를 입력하세요");
-        } else {
-            const newPosts = [newPost,...posts];
-            setPosts(newPosts);
-        }
+            return;
+        } 
+        
+        const newPosts = [newPost,...posts];
+        setPosts(newPosts);
+        
     }
+
+    
 
     return (
         <Layout title={"Community"}>
@@ -80,6 +104,7 @@ export default function Community() {
                         <article key={i}>
                             <h2>{item.title}</h2>
                             <p>{item.content}</p>
+                            <button onClick={() => enableUpdate(i)}>수정</button>
                             <button onClick={() => deletePosts(i)}>삭제</button>
                         </article>
                     )
