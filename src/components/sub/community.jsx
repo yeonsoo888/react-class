@@ -96,7 +96,7 @@ export default function Community() {
     const handleModify = (i) => {
         const changeTit = modifyInput.current.value;
         const changeCnt = modifyTextarea.current.value;
-        if(changeTit == "" || changeCnt == "") {
+        if(changeTit.trim() == "" || changeCnt.trim() == "") {
             window.alert("빈칸은 안돼");
             return;
         }
@@ -122,6 +122,10 @@ export default function Community() {
         )
         setConfirmModify(!confirmModify);
     }
+
+    useEffect(() => {
+        localStorage.setItem('posts',JSON.stringify(posts));
+    },[])
 
     return (
         <Layout title={"Community"}>
