@@ -9,35 +9,47 @@ export default function Community() {
     const modifyTextarea = useRef(null);
     const [confirmModify,setConfirmModify] = useState(false);
 
-    const dummyPosts = [
-        {
-            title : "hello1",
-            content: "here comes description in detail.",
-
-        },
-        {
-            title : "hello2",
-            content: "here comes description in detail.",
-
-        },
-        {
-            title : "hello3",
-            content: "here comes description in detail.",
-
-        },
-        {
-            title : "hello4",
-            content: "here comes description in detail.",
-
-        },
-        {
-            title : "hello5",
-            content: "here comes description in detail.",
-
-        },
-    ]
+    const getLocaldata = () => {
+        const dummyPosts = [
+            {
+                title : "hello1",
+                content: "here comes description in detail.",
     
-    const [posts, setPosts] = useState(dummyPosts);
+            },
+            {
+                title : "hello2",
+                content: "here comes description in detail.",
+    
+            },
+            {
+                title : "hello3",
+                content: "here comes description in detail.",
+    
+            },
+            {
+                title : "hello4",
+                content: "here comes description in detail.",
+    
+            },
+            {
+                title : "hello5",
+                content: "here comes description in detail.",
+    
+            },
+        ];
+        const data = localStorage.getItem('posts');
+        
+        if(data) return JSON.parse(data);
+        else return dummyPosts;
+    }
+
+    
+
+    useEffect(() => {
+        localStorage.setItem('posts',JSON.stringify(posts));
+    },[])
+    
+    const [posts, setPosts] = useState(getLocaldata);
     const [newPost,setNewPost] = useState({
         title: "",
         content: "",
@@ -91,6 +103,7 @@ export default function Community() {
         const newPosts = [newPost,...posts];
         setPosts(newPosts);
         
+        localStorage.setItem('posts',JSON.stringify(newPosts));
     }
 
     const handleModify = (i) => {
@@ -123,9 +136,7 @@ export default function Community() {
         setConfirmModify(!confirmModify);
     }
 
-    useEffect(() => {
-        localStorage.setItem('posts',JSON.stringify(posts));
-    },[])
+
 
     return (
         <Layout title={"Community"}>
