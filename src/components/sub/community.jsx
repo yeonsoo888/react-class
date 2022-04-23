@@ -100,12 +100,25 @@ export default function Community() {
             </div>
             <div className="showBox">
                 {posts.map( (item,i) => {
+                    
                     return (
                         <article key={i}>
-                            <h2>{item.title}</h2>
-                            <p>{item.content}</p>
-                            <button onClick={() => enableUpdate(i)}>수정</button>
-                            <button onClick={() => deletePosts(i)}>삭제</button>
+                            {item.enableUpdate 
+                            ?
+                            <>
+                                <input type="text" defaultValue={item.title} /> <br />
+                                <textarea name="" id="" defaultValue={item.content}></textarea> <br />
+                                <button type="reset">cancel</button>
+                                <button>save</button>
+                            </>
+                            :
+                            <>
+                                <h2>{item.title}</h2>
+                                <p>{item.content}</p>
+                                <button onClick={() => enableUpdate(i)}>수정</button>
+                                <button onClick={() => deletePosts(i)}>삭제</button>
+                            </>
+                            }
                         </article>
                     )
                 })}
