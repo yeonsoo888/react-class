@@ -96,7 +96,10 @@ export default function Community() {
     const handleModify = (i) => {
         const changeTit = modifyInput.current.value;
         const changeCnt = modifyTextarea.current.value;
-
+        if(changeTit == "" || changeCnt == "") {
+            window.alert("빈칸은 안돼");
+            return;
+        }
         setPosts(
             posts.map((item,idx) => {
                 if(idx == i) {
@@ -110,7 +113,7 @@ export default function Community() {
         setConfirmModify(!confirmModify);
     }
 
-    const handleModifyCancel = (i) => {
+    const handleModifyCancel = () => {
         setPosts(
             posts.map((item,idx) => {
                 item.enableUpdate = false;
