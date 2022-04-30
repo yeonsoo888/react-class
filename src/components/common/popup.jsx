@@ -11,11 +11,13 @@ const Popup = forwardRef(({children ,popName} , ref) => {
     });
 
     useEffect(() => {
-        document.body.style.overflow = 'hidden';
+        let isScroll = null;
+        open ? (isScroll = 'hidden') : (isScroll = 'auto');
+        document.body.style.overflow = isScroll;
         return () => {
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = isScroll;
         };
-    }, []);
+    }, [open]);
 
     return (
         <AnimatePresence>

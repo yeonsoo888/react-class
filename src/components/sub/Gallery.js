@@ -4,10 +4,13 @@ import Layout from "../common/layout";
 import Popup from '../common/popup';
 
 function Gallery() {
+	const pop = useRef(null);
 	const [items, setItems] = useState([]);
 	const [isPop, setIsPop] = useState(false);
 	//목록의 순서값을 담을 state
 	const [index, setIndex] = useState(0);
+	const [loading, setLoading] = useState(false);
+
 
 	const api_key = 'feb5dbb632085ee9e53c197d363d1a85';
 	const method = 'flickr.interestingness.getList';
@@ -18,8 +21,8 @@ function Gallery() {
 		axios
 			.get(url)
 			.then((json) => {
-				console.log(json.data.photos.photo);
 				setItems(json.data.photos.photo);
+				setLoading(true);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -28,41 +31,42 @@ function Gallery() {
 
 	return (
 		<>
-        	<Layout title={"gallery"}>
-					<ul>
-						{items.map((item, idx) => {
-							return (
-								<li
-									key={idx}
-									onClick={() => {
-										setIsPop(!isPop);
-										//리스트 클릭시 해당 리스트의 순서값으로 state변경
-										setIndex(idx);
-									}}>
-									<img
-										src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
-									/>
-									<h2>{item.title}</h2>
-								</li>
-							);
-						})}
-					</ul>
+			<Layout title={"gallery"}>
+				<ul>
+					{items.map((item, idx) => {
+						return (
+							<li
+								key={idx}
+								onClick={() => {
+									pop.current.pop();
+									setIndex(idx);
+								}}>
+								<img
+									src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
+								/>
+								<h2>{item.title}</h2>
+							</li>
+						);
+					})}
+				</ul>
 			</Layout>
 
-			{
-			isPop ? (
-				<Popup popName="gallery">
-					<div className='pic'>
-					<img
-						src={`https://live.staticflickr.com/${items[index].server}/${items[index].id}_${items[index].secret}_b.jpg`}
-					/>
-					</div>
-					<p>{items[index].title}</p>
-					<span onClick={() => setIsPop(!isPop)}>close</span>
-				</Popup> 
-			)
-				: null
-			}
+			
+			<Popup popName="gallery" ref={pop}>
+				{
+					loading && (
+						<>
+							<div className='pic'>
+							<img
+								src={`https://live.staticflickr.com/${items[index].server}/${items[index].id}_${items[index].secret}_b.jpg`}
+							/>
+							</div>
+							<p>{items[index].title}</p>
+						</>
+					)
+				}
+				<span onClick={() => pop.current.close()}>close</span>
+			</Popup> 
 		</>
 	);
 }
