@@ -1,11 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from "../common/layout";
+import Popup from '../common/popup';
 
 function Youtube() {
+	const pop = useRef(null);
 	const [items, setItems] = useState([]);
-	const [isPop, setIsPop] = useState(false);
 	const [index, setIndex] = useState(0);
+	const [loading, setLoading] = useState(false);
 
 	const api_key = 'AIzaSyCCiJkX1nNqYL222H5m-0fCS65LfzyExlQ';
 	const play_list = 'PLHtvRFLN5v-UVVpNfWqtgZ6YPs9ZJMWRK';
@@ -13,8 +15,8 @@ function Youtube() {
 
 	useEffect(() => {
 		axios.get(url).then((json) => {
-			console.log(json.data.items);
 			setItems(json.data.items);
+			setLoading(true);
 		});
 	}, []);
 
@@ -30,7 +32,6 @@ function Youtube() {
 						<article
 							key={idx}
 							onClick={() => {
-								setIsPop(!isPop);
 								setIndex(idx);
 							}}>
 							<div className='inner'>
@@ -45,32 +46,22 @@ function Youtube() {
 					);
 				})}
 			</Layout>
-			{isPop ? <Popup /> : null}
+			<Popup popName="youtube" ref={pop}>
+				{
+					loading && (
+						<iframe
+							src={
+								'https://www.youtube.com/embed/' +
+								items[index].snippet.resourceId.videoId
+							}
+							frameBorder='0'>
+						</iframe>
+					)
+				}
+				<span>close</span>
+			</Popup> 
 		</>
 	);
-
-	function Popup() {
-		useEffect(() => {
-			console.log('pop');
-			document.body.style.overflow = 'hidden';
-
-			return () => {
-				document.body.style.overflow = 'auto';
-			};
-		}, []);
-
-		return (
-			<aside className='popup'>
-				<iframe
-					src={
-						'https://www.youtube.com/embed/' +
-						items[index].snippet.resourceId.videoId
-					}
-					frameBorder='0'></iframe>
-				<span onClick={() => setIsPop(!isPop)}>close</span>
-			</aside>
-		);
-	}
 }
 
 export default Youtube;

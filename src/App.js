@@ -1,8 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
-import Visual from './components/main/Visual';
-import Content from './components/main/Content';
+
 import Youtube from './components/sub/Youtube';
 import Gallery from './components/sub/Gallery';
 import Department from './components/sub/Department';
@@ -11,18 +10,15 @@ import Join from './components/sub/Join';
 
 import './scss/style.scss';
 import Community from './components/sub/community';
+import Main from './components/main/main';
 
 
 function App() {
 	return (
 		<>
 			<Switch>
-				<Route exact path='/'>
-					<Header type={'main'} />
-					<Visual />
-					<Content />
-				</Route>
-
+				<Route exact path='/' component={Main}></Route>
+				
 				<Route path='/'>
 					<Header type={'sub'} />
 				</Route>

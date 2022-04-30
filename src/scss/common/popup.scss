@@ -1,0 +1,12 @@
+.popup {
+    overflow: auto;
+    .con {
+        &.youtube {
+            position: relative; width: 100%; padding-bottom: 56.25%;
+    
+            iframe {
+                position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+            }
+        }
+    }
+}

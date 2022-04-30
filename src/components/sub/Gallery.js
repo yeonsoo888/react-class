@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useRef, useEffect, useState } from 'react';
 import Layout from "../common/layout";
+import Popup from '../common/popup';
 
 function Gallery() {
 	const [items, setItems] = useState([]);
@@ -48,29 +49,22 @@ function Gallery() {
 					</ul>
 			</Layout>
 
-			{isPop ? <Popup /> : null}
-		</>
-	);
-
-	function Popup() {
-		useEffect(() => {
-			document.body.style.overflow = 'hidden';
-			return () => (document.body.style.overflow = 'auto');
-		}, []);
-
-		return (
-			<aside className='popup'>
-				{/* index state값에 따라 팝업에 출력되는 내용 변경 */}
-				<div className='pic'>
+			{
+			isPop ? (
+				<Popup popName="gallery">
+					<div className='pic'>
 					<img
 						src={`https://live.staticflickr.com/${items[index].server}/${items[index].id}_${items[index].secret}_b.jpg`}
 					/>
-				</div>
-				<p>{items[index].title}</p>
-				<span onClick={() => setIsPop(!isPop)}>close</span>
-			</aside>
-		);
-	}
+					</div>
+					<p>{items[index].title}</p>
+					<span onClick={() => setIsPop(!isPop)}>close</span>
+				</Popup> 
+			)
+				: null
+			}
+		</>
+	);
 }
 
 export default Gallery;
