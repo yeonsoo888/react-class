@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from "../common/layout";
 import Popup from '../common/popup';
+import { faPoop } from '@fortawesome/free-solid-svg-icons';
 
 function Youtube() {
 	const pop = useRef(null);
@@ -33,6 +34,7 @@ function Youtube() {
 							key={idx}
 							onClick={() => {
 								setIndex(idx);
+								pop.current.open()
 							}}>
 							<div className='inner'>
 								<div className='pic'>
@@ -58,7 +60,9 @@ function Youtube() {
 						</iframe>
 					)
 				}
-				<span>close</span>
+				<span onClick={() => {
+					pop.current.close()
+				}}>close</span>
 			</Popup> 
 		</>
 	);
