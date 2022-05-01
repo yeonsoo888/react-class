@@ -1,12 +1,15 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from "../common/layout";
+import {useSelector} from 'react-redux';
 
 function Department() {
-	const [members, setMembers] = useState([]);
 	const path = process.env.PUBLIC_URL;
+	
+	
+	/*
+	const [members, setMembers] = useState([]);
 	const url = `${path}/DB/department.json`;
-
 	useEffect(() => {
 		axios
 			.get(url)
@@ -17,20 +20,12 @@ function Department() {
 				console.log(err);
 			});
 	}, []);
+	*/
+	const members = useSelector((store) => store.memberReducer.members);
 
 	return (
 
         <Layout title={"department"}>
-			<button
-				onClick={() => {
-					let newMembers = [...members];
-					newMembers[0].name = 'Michael';
-					setMembers(newMembers);
-					console.log(members);
-				}}>
-				멤버정보 변경
-			</button>
-
 			<ul>
 				{members.map((data, idx) => {
 					return (
