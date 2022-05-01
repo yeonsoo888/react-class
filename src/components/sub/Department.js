@@ -22,7 +22,6 @@ function Department() {
 	}, []);
 	*/
 	const members = useSelector((store) => store.memberReducer.members);
-
 	return (
 
         <Layout title={"department"}>
