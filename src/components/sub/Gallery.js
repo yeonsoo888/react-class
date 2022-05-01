@@ -38,7 +38,7 @@ function Gallery() {
 							<li
 								key={idx}
 								onClick={() => {
-									pop.current.pop();
+									pop.current.open();
 									setIndex(idx);
 								}}>
 								<img
