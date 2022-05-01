@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from "../common/layout";
-import {useSelector} from 'react-redux';
+import {useSelector , useDispatch} from 'react-redux';
+import {setMembers , upLike} from '../../redux/actions'
 
 function Department() {
 	const path = process.env.PUBLIC_URL;
@@ -21,9 +22,10 @@ function Department() {
 			});
 	}, []);
 	*/
+	const dispatch = useDispatch();
 	const members = useSelector((store) => store.memberReducer.members);
-	return (
 
+	return (
         <Layout title={"department"}>
 			<ul>
 				{members.map((data, idx) => {
@@ -32,6 +34,16 @@ function Department() {
 							<img src={`${path}/img/${data.pic}`} />
 							<h2>{data.name}</h2>
 							<p>{data.position}</p>
+							<div>
+								<span>like {data.like}</span>
+								<div>
+									<button onClick={() => {
+										let copy = [...members];
+										copy[idx].like++;
+										dispatch({type: "upLike", payload: copy});
+									}}>like</button>
+								</div>
+							</div>
 						</li>
 					);
 				})}

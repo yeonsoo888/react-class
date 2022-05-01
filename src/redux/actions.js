@@ -4,3 +4,10 @@ export const setMembers = member => {
         payload: member,
     }
 }
+
+export const upLike = (member) => {
+    return {
+        type: "upLike",
+        payload: member,
+    }
+}
