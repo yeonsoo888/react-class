@@ -6,10 +6,6 @@ import Pics from './pics';
 import Vids from './vids';
 
 function Main() {
-
-    const b = new Promise((resolve, reject) => {
-    });
-
     return (
         <>
             <Header type={'main'} />

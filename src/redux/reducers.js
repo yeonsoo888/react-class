@@ -37,6 +37,9 @@ const memberReducer = (state = initMember, action) => {
         case 'upLike':
             return { ...state, members: action.payload };
             break;
+        case 'changeMode':
+            return { ...state, members: action.payload };
+            break;
 		default:
 			return state;
 	}
