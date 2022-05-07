@@ -1,32 +1,19 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setYoutube } from '../../redux/actions';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
 import Layout from "../common/layout";
 import Popup from '../common/popup';
-import { faPoop } from '@fortawesome/free-solid-svg-icons';
 
 function Youtube() {
 	const vidData = useSelector(store => store.youtubeReducer.youtube);
-	const dispatch = useDispatch();
 	const pop = useRef(null);
 	const [index, setIndex] = useState(0);
 	const [loading, setLoading] = useState(false);
 
-	const fetchYoutube = async () => {
-		const key = process.env.REACT_APP_YOUTUBE_API_KEY;
-		const id = 'PLHtvRFLN5v-UVVpNfWqtgZ6YPs9ZJMWRK';
-		const url = `https://www.googleapis.com/youtube/v3/playlistItems?key=${key}&playlistId=${id}&maxResults=3&part=snippet`;
-		
-		await axios.get(url).then((json)=>{
-			dispatch(setYoutube(json.data.items));
+	useEffect(()=>{
+		if(vidData.length >= 1) {
 			setLoading(true);
-		})
-	}
-
-	useEffect(() => {
-		fetchYoutube();
-	}, []);
+		}
+	},[vidData]);
 
 	return (
 		<>
