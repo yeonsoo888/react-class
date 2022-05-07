@@ -28,7 +28,7 @@ function Youtube() {
 							key={idx}
 							onClick={() => {
 								setIndex(idx);
-								pop.current.open()
+								pop.current.open();
 							}}>
 							<div className='inner'>
 								<div className='pic'>

@@ -6,7 +6,7 @@ function Pics() {
 
 	return (
 		<>
-			<ul>
+			<ul className="memberList">
 				{members.map((data, idx) => {
 					return (
 						<li key={idx}>

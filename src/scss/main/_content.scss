@@ -1,2 +1,17 @@
-.youtubeList {display: block; white-space: nowrap; overflow: auto;}
-.youtubeList li {display: inline-block;}
+.memberList {
+    display: flex;  max-width: 100%;
+    img {
+        width: 10rem;
+    }
+}
+
+.youtubeList {
+    display: flex;  max-width: 100%;
+    li {
+        display: inline-block;
+        img {
+            width: 10rem;
+        }
+    }
+}
+
