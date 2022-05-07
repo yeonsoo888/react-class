@@ -1,30 +1,37 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setYoutube } from '../../redux/actions';
 import axios from 'axios';
 import Layout from "../common/layout";
 import Popup from '../common/popup';
 import { faPoop } from '@fortawesome/free-solid-svg-icons';
 
 function Youtube() {
+	const vidData = useSelector(store => store.youtubeReducer.youtube);
+	const dispatch = useDispatch();
 	const pop = useRef(null);
-	const [items, setItems] = useState([]);
 	const [index, setIndex] = useState(0);
 	const [loading, setLoading] = useState(false);
 
-	const api_key = 'AIzaSyCCiJkX1nNqYL222H5m-0fCS65LfzyExlQ';
-	const play_list = 'PLHtvRFLN5v-UVVpNfWqtgZ6YPs9ZJMWRK';
-	const url = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&playlistId=${play_list}&maxResults=3&part=snippet`;
+	const fetchYoutube = async () => {
+		const key = process.env.REACT_APP_YOUTUBE_API_KEY;
+		const id = 'PLHtvRFLN5v-UVVpNfWqtgZ6YPs9ZJMWRK';
+		const url = `https://www.googleapis.com/youtube/v3/playlistItems?key=${key}&playlistId=${id}&maxResults=3&part=snippet`;
+		
+		await axios.get(url).then((json)=>{
+			dispatch(setYoutube(json.data.items));
+			setLoading(true);
+		})
+	}
 
 	useEffect(() => {
-		axios.get(url).then((json) => {
-			setItems(json.data.items);
-			setLoading(true);
-		});
+		fetchYoutube();
 	}, []);
 
 	return (
 		<>
 			<Layout title={"youtube"}>
-				{items.map((item, idx) => {
+				{vidData.map((item, idx) => {
 					let desc = item.snippet.description;
 					let desc_len = desc.length;
 					let date = item.snippet.publishedAt;
@@ -54,7 +61,7 @@ function Youtube() {
 						<iframe
 							src={
 								'https://www.youtube.com/embed/' +
-								items[index].snippet.resourceId.videoId
+								vidData[index].snippet.resourceId.videoId
 							}
 							frameBorder='0'>
 						</iframe>

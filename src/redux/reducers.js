@@ -1,3 +1,4 @@
+import axios from "axios";
 import { combineReducers } from "redux";
 
 let initMember = {
@@ -42,8 +43,18 @@ const memberReducer = (state = initMember, action) => {
 	}
 };
 
+const youtubeReducer = (state = {youtube: []}, action) => {
+    switch (action.type) {
+        case "SET_YOUTUBE" :
+            return {...state, youtube: action.payload};
+            break;
+        default: 
+            return state;
+    }
+}
+
 const reducers = combineReducers({
-    memberReducer,
+    memberReducer, youtubeReducer,
 });
 
 

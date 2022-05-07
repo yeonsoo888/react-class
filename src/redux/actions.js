@@ -5,6 +5,13 @@ export const setMembers = member => {
     }
 }
 
+export const setYoutube = data => {
+    return {
+        type: "SET_YOUTUBE",
+        payload: data,
+    }
+}
+
 export const upLike = (member) => {
     return {
         type: "upLike",
